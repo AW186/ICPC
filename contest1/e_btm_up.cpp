@@ -64,8 +64,6 @@ int main(){
             set<int> learned;
             int result = 0;
             result += dfs(firstChosen, learned, weight, edge);
-            //cout << "chosen " << firstChosen << "and"  << secondChosen << "\n";
-            //cout << result << "\n";
             result += dfs(secondChosen, learned, weight, edge);
             if(result < min){
                 min = result;
