@@ -1,53 +1,52 @@
-//
-// Created by jiahua.liu on 2023/9/22.
-//
-#include <set>
+
+
+#include <deque>
 #include <iostream>
-#include <vector>
-#include <queue>
+#include <unordered_map>
+
 using namespace std;
 
 
-
-
-typedef struct {
-    int value;
-    Candidate c;
-} Candidate;
-
-int main(){
-    queue<Candidate> queue;
-
+int main(int argc, char* argv[]) {
     int a, b;
     cin >> a;
     cin >> b;
-
-    queue.push({a, -1});
-
-    while(!queue.empty()){
-        bool any = false;
-        size_t sizeHolder = queue.size();
-        Candidate target;
-        for(size_t i = 0; i < sizeHolder; ++i){
-            target = queue.front();
-
-            if(target.value == b){
-
-                return 0;
-            }
-            if(target.value < b){
-                any = true;
-            }
-
-            queue.push(Candidate{target.value * 2, 1});
-            queue.push(Candidate{target.value * 10 + 1, 2});
-
-            queue.pop();
+    //bfs
+    deque<int> q;
+    unordered_map<int, int> visit;
+    q.push_back(a);
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop_front();
+        int new1 = node * 2;
+        int new2 = node * 10 + 1;
+        if (new1 <= b && !visit.count(new1)) {
+            q.push_back(new1);
+            visit[new1] = node;
         }
-        if(!any){
-            cout << "NO";
+        if (new2 <= b && !visit.count(new2)) {
+            q.push_back(new2);
+            visit[new2] = node;
         }
+        if (new1 == b || new2 == b) break;
+    }
+    if (visit.count(b)) {
+        cout << "YES" << endl;
+        deque<int> path;
+        path.push_front(b);
+        for (int i = b; i != a; i = visit[i]) {
+            path.push_front(visit[i]);
+        }
+        cout << path.size() << endl;
+        while (!path.empty()) {
+            cout << path.front() << " ";
+            path.pop_front();
+        }
+        cout << endl;
+    } else {
+        cout << "NO" << endl;
     }
 
-    cout << "NO";
+    return 0;
+
 }
