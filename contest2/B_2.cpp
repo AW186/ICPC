@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // Created by jiahua.liu on 2023/9/29.
 //
@@ -25,15 +24,17 @@ int main() {
     }
 
     std::sort(remains.begin(), remains.end());
-    int r = 100;
-    int l = 100 - n + 1;
-    while(l < r){
-        if(remains[l] + remains[l + 1] > remains[r]){
-            break;
+
+    int day = remains[100];
+    for(; day >= 1; --day){
+        int fullfill = 0;
+        for(int remain: remains){
+            fullfill += remain / day;
         }
-        remains[r] = remains[r] - remains[l];
-        l = l + 1;
-        std::sort(remains.begin(), remains.end());
+        if(fullfill >= n){
+            cout << day;
+            exit(0);
+        }
     }
-    cout << remains[l] ;
+    cout << 0;
 }
