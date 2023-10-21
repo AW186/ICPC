@@ -1,8 +1,11 @@
 #include <bits/stdc++.h>
 
-#define ll long long
+#define ll short
 
 using namespace std;
+
+vector<vector<vector<int>>> dp;
+ll k;
 
 bool possible(ll x, ll y, ll currX, ll currY, const string &s, ll curr, ll rem, const vector<vector<char>> &arr, ll r, ll c)
 {
@@ -15,7 +18,9 @@ bool possible(ll x, ll y, ll currX, ll currY, const string &s, ll curr, ll rem, 
     {
         return rem == 0;
     }
-
+    if ((dp[x][y][curr] != k + 1) && (dp[x][y][curr] >= rem || (-dp[x][y][curr]) > rem)) {
+        return dp[x][y][curr] > 0;
+    }
     vector<pair<ll, ll>> dirs = {
         {1, 0},
         {-1, 0},
@@ -37,11 +42,12 @@ bool possible(ll x, ll y, ll currX, ll currY, const string &s, ll curr, ll rem, 
             if (possible(x + dir.first, y + dir.second, dir.first, dir.second,
                          s, curr + 1, rem + amt, arr, r, c))
             {
+                dp[x][y][curr] = rem;
                 return true;
             }
         }
     }
-
+    dp[x][y][curr] = -rem - 1;
     return false;
 }
 
@@ -50,7 +56,6 @@ void solve()
     ll r;
     ll c;
     cin >> r >> c;
-
     vector<vector<char>> arr(r, vector<char>(c));
     for (vector<char> &v : arr)
     {
@@ -60,9 +65,9 @@ void solve()
         }
     }
 
-    ll k;
     string s;
     cin >> k >> s;
+    dp = vector<vector<vector<int>>>(r, vector<vector<int>>(c, vector<int>(s.size(), k + 1)));
 
     vector<pair<ll, ll>> dirs = {
         {1, 0},
