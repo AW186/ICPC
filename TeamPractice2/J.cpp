@@ -72,7 +72,7 @@ int main() {
                     //unique in row
                     for (int place = 0; place < 9; place++) {
                         if (output[ROW(i)][place] != '.') continue;
-                        if ((cols[place] | grids[GRIDRC(ROW(i), place)]) & (1 << guess)) continue;
+                        if (place == COL(i) || (cols[place] | grids[GRIDRC(ROW(i), place)]) & (1 << guess)) continue;
                         isunique = false;
                         break;
                     }
@@ -81,7 +81,7 @@ int main() {
                     isunique = true;
                     for (int place = 0; place < 9; place++) {
                         if (output[place][COL(i)] != '.') continue;
-                        if ((rows[place] | grids[GRIDRC(place, COL(i))]) & (1 << guess)) continue;
+                        if (place == ROW(i) || (rows[place] | grids[GRIDRC(place, COL(i))]) & (1 << guess)) continue;
                         isunique = false;
                         break;
                     }
@@ -93,7 +93,7 @@ int main() {
 #define G2C (((gid % 3) * 3) + (place % 3))
                     for (int place = 0; place < 9; place++) {
                         if (output[G2R][G2C] != '.') continue;
-                        if ((rows[G2R] | cols[G2C]) & (1 << guess)) continue;
+                        if ((G2R == ROW(i) && G2C == COL(i)) || (rows[G2R] | cols[G2C]) & (1 << guess)) continue;
                         isunique = false;
                         break;
                     }
