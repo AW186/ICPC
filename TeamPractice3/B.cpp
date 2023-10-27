@@ -48,6 +48,7 @@ int main() {
             }
         }
     }
+#ifdef DEBUG
     for (int pass = 0; pass <= passes; pass++) {
         cout << "Pass: " << pass << endl;
         for (int r = 0; r < rows; r++) {
@@ -57,6 +58,7 @@ int main() {
             cout << endl;
         }
     }
+#endif
     int res = dp[cols-1][0][passes];
     for (int r = 1; r < rows; r++) {
         if (dp[cols-1][r][passes] < 0) continue;
